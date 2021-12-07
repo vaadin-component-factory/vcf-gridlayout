@@ -1,0 +1,12 @@
+.v-gridlayout.v-spacing {
+    column-gap: var(--lumo-space-m);
+    row-gap: var(--lumo-space-m);
+}
+
+.v-gridlayout.v-slot {
+    display: flex;
+    justify-content: left;
+    align-items: flex-start;
+    flex-grow: 1;
+    flex-basis: 0;
+}
