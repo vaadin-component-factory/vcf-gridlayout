@@ -3,24 +3,29 @@ package com.vaadin.componentfactory.gridlayout;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.Label;
-import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.demo.DemoView;
 import com.vaadin.flow.router.Route;
 
+@SuppressWarnings("serial")
 @Route
-public class MainView extends VerticalLayout {
+public class MainView extends DemoView {
 
-  public MainView() {
-    this.setMargin(true);
-    
+  @Override
+  protected void initView() {
+    createBasicGridLayoutExample();    
+  }
+  
+  public void createBasicGridLayoutExample() {
+    // begin-source-example
+    // source-example-heading: Simple grid layout example
     // Create a 4 by 4 grid layout.
     GridLayout grid = new GridLayout(4, 4);
-//    grid.setSpacing(true);
-//    grid.setMargin(true);
+    grid.setSpacing(true);
+    grid.setMargin(true);
     
-    // NEED TO DEFINE WIDTH & HEIGHT
+    // Need to define width & height for the layout.
     grid.setWidth("404px");
     grid.setHeight("348px");   
-
 
     // Fill out the first row using the cursor.
     Button brc1 = new Button("R/C 1");
@@ -41,8 +46,9 @@ public class MainView extends VerticalLayout {
         grid.addComponent(b, 0, i);
     }
 
-    // // Add some components of various shapes.
+    // Add some components of various shapes.
     Button b = new Button("3x1 button");
+    b.setWidth("100%");
     grid.addComponent(b, 1, 1, 3, 1);
     grid.addComponent(new Label("1x2 cell"), 1, 2, 1, 3);
     Div div = new Div();
@@ -50,7 +56,11 @@ public class MainView extends VerticalLayout {
     div.setWidth("252px");
     div.setHeight("248px");
     grid.addComponent(div, 2, 2, 3, 3);
-        
-    add(grid);
-  }
+            
+    // end-source-example
+    grid.setId("simple-grid-layout-example");
+
+    addCard("Simple grid layout example", grid);
+  } 
+
 }
