@@ -3,7 +3,31 @@
     row-gap: var(--lumo-space-m);
 }
 
-.v-gridlayout.v-slot {
+.v-gridlayout.v-margin-top {
+    padding-top: var(--lumo-space-m);
+}
+
+.v-gridlayout.v-margin-bottom {
+    padding-bottom: var(--lumo-space-m);
+}
+
+.v-gridlayout.v-spacing.v-margin-bottom {
+    padding-bottom: var(--lumo-space-xl);
+}
+
+.v-gridlayout.v-margin-left {
+    padding-left: var(--lumo-space-m);
+}
+
+.v-gridlayout.v-margin-right {
+    padding-right: var(--lumo-space-m);
+}
+
+.v-gridlayout.v-spacing.v-margin-right {
+    padding-right: var(--lumo-space-xl);
+}
+
+.v-gridlayout .v-slot {
     display: flex;
     justify-content: left;
     align-items: flex-start;
