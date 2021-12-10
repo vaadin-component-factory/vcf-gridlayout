@@ -59,11 +59,6 @@ public class GridLayout extends Composite<Div> implements HasSize {
   private final Map<Component, ChildComponentData> componentsDataMap = new HashMap<>();
 
   /**
-   * Default component alignment.
-   */
-  private Alignment defaultComponentAlignment = Alignment.TOP_LEFT;
-
-  /**
    * Cursor X position: this is where the next component with unspecified x,y is inserted
    */
   private int cursorX = 0;
@@ -472,14 +467,6 @@ public class GridLayout extends Composite<Div> implements HasSize {
     div.getElement().getClassList().set(SPACING_CLASS_NAME, spacing);
   }
 
-  public Alignment getDefaultComponentAlignment() {
-    return defaultComponentAlignment;
-  }
-
-  public void setDefaultComponentAlignment(Alignment defaultAlignment) {
-    defaultComponentAlignment = defaultAlignment;
-  }
-
   /**
    * Defines a rectangular area of cells in a GridLayout.
    *
@@ -516,7 +503,7 @@ public class GridLayout extends Composite<Div> implements HasSize {
     public Area(Component component, int column1, int row1, int column2, int row2) {
       this.component = component;
       childData = new ChildComponentData();
-      childData.alignment = getDefaultComponentAlignment().getBitMask();
+      childData.alignment = Alignment.TOP_LEFT.getBitMask();
       childData.column1 = column1;
       childData.row1 = row1;
       childData.column2 = column2;
