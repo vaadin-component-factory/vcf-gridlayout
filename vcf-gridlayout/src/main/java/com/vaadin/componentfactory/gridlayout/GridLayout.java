@@ -23,6 +23,7 @@ package com.vaadin.componentfactory.gridlayout;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.Composite;
 import com.vaadin.flow.component.HasSize;
+import com.vaadin.flow.component.HasStyle;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.html.Div;
 import java.io.Serializable;
@@ -37,7 +38,7 @@ import java.util.Map.Entry;
 import java.util.stream.Collectors;
 
 @CssImport("./styles/grid-layout.css")
-public class GridLayout extends Composite<Div> implements HasSize {
+public class GridLayout extends Composite<Div> implements HasSize, HasStyle {
 
   private static final String SLOT_CLASS_NAME = "v-slot";
 
