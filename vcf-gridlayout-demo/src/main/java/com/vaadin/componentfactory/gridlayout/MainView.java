@@ -1,6 +1,8 @@
 package com.vaadin.componentfactory.gridlayout;
 
+import com.vaadin.flow.component.Unit;
 import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.demo.DemoView;
@@ -12,7 +14,10 @@ public class MainView extends DemoView {
 
   @Override
   protected void initView() {
-    createBasicGridLayoutExample();    
+    createBasicGridLayoutExample();
+    createBasicGridLayoutWidthExample();
+    createBasicGridLayoutWidth2Example();
+    createBasicGridLayoutWidth3Example();
   }
   
   public void createBasicGridLayoutExample() {
@@ -59,8 +64,132 @@ public class MainView extends DemoView {
             
     // end-source-example
     grid.setId("simple-grid-layout-example");
-
     addCard("Simple grid layout example", grid);
   } 
 
+  public void createBasicGridLayoutWidthExample() {
+    // begin-source-example
+    // source-example-heading: Simple grid layout example
+    // Create a 4 by 4 grid layout.
+    GridLayout grid = new GridLayout(4, 4);
+    grid.setSpacing(false);
+    grid.setMargin(false);
+    
+    // Need to define width & height for the layout.
+    grid.setWidthFull();
+    grid.setHeight("30px");   
+
+    Button b1  = new Button("10%");
+    b1.setWidth("100%");
+    grid.addComponent(b1);
+    
+    Button b2  = new Button("Auto");
+    b2.setWidth("100%");
+    b2.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+    grid.addComponent(b2);
+
+    Button b3  = new Button("30%");
+    b3.setWidth("100%");
+    grid.addComponent(b3);
+
+    Button b4  = new Button("40%");
+    b4.setWidth("100%");
+    b4.addThemeVariants(ButtonVariant.LUMO_PRIMARY, ButtonVariant.LUMO_ERROR);
+    grid.addComponent(b4);
+    
+    
+    grid.setColumnWidth(1, "10%");
+    //grid.setColumnWidth(2, "20%");
+    grid.setColumnWidth(3, "30%");
+    grid.setColumnWidth(4, "40%");
+            
+    // end-source-example
+    grid.setId("simple-grid-layout-width-example");
+
+    addCard("Grid layout width %", grid);
+  } 
+
+  public void createBasicGridLayoutWidth2Example() {
+    // begin-source-example
+    // source-example-heading: Simple grid layout example
+    // Create a 4 by 4 grid layout.
+    GridLayout grid = new GridLayout(4, 4);
+    grid.setSpacing(false);
+    grid.setMargin(false);
+    
+    // Need to define width & height for the layout.
+    grid.setWidthFull();
+    grid.setHeight("30px");   
+
+    Button b1  = new Button("10em");
+    b1.setWidth("100%");
+    grid.addComponent(b1);
+    
+    Button b2  = new Button("Auto");
+    b2.setWidth("100%");
+    b2.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+    grid.addComponent(b2);
+
+    Button b3  = new Button("10em");
+    b3.setWidth("100%");
+    grid.addComponent(b3);
+
+    Button b4  = new Button("20em");
+    b4.setWidth("100%");
+    b4.addThemeVariants(ButtonVariant.LUMO_PRIMARY, ButtonVariant.LUMO_ERROR);
+    grid.addComponent(b4);
+    
+    
+    grid.setColumnWidth(1, 10, Unit.EM);
+    //grid.setColumnWidth(2, "20%");
+    grid.setColumnWidth(3, 10, Unit.EM);
+    grid.setColumnWidth(4, 20, Unit.EM);
+            
+    // end-source-example
+    grid.setId("simple-grid-layout-width2-example");
+
+    addCard("Grid layout width in em", grid);
+  } 
+
+  public void createBasicGridLayoutWidth3Example() {
+    // begin-source-example
+    // source-example-heading: Simple grid layout example
+    // Create a 4 by 4 grid layout.
+    GridLayout grid = new GridLayout(4, 4);
+    grid.setSpacing(false);
+    grid.setMargin(false);
+    
+    // Need to define width & height for the layout.
+    grid.setWidthFull();
+    grid.setHeight("30px");   
+
+    Button b1  = new Button("1");
+    b1.setWidth("100%");
+    grid.addComponent(b1);
+    
+    Button b2  = new Button("1");
+    b2.setWidth("100%");
+    b2.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+    grid.addComponent(b2);
+
+    Button b3  = new Button("2");
+    b3.setWidth("100%");
+    grid.addComponent(b3);
+
+    Button b4  = new Button("4");
+    b4.setWidth("100%");
+    b4.addThemeVariants(ButtonVariant.LUMO_PRIMARY, ButtonVariant.LUMO_ERROR);
+    grid.addComponent(b4);
+    
+    
+    grid.setColumnExpandRatio(1, 1);
+    grid.setColumnExpandRatio(2, 1);
+    grid.setColumnExpandRatio(3, 2);
+    grid.setColumnExpandRatio(4, 4);
+            
+    // end-source-example
+    grid.setId("simple-grid-layout-expand-ratio-example");
+
+    addCard("Grid layout expand ratio", grid);
+  } 
 }

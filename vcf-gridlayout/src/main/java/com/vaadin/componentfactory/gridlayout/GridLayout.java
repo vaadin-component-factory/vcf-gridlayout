@@ -24,6 +24,7 @@ import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.Composite;
 import com.vaadin.flow.component.HasSize;
 import com.vaadin.flow.component.HasStyle;
+import com.vaadin.flow.component.Unit;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.html.Div;
 import java.io.Serializable;
@@ -75,6 +76,9 @@ public class GridLayout extends Composite<Div> implements HasSize, HasStyle {
    * Cursor Y position: this is where the next component with unspecified x,y is inserted
    */
   private int cursorY = 0;
+  
+  private ArrayList<String> colWidths= null;
+  private ArrayList<Float> colWidthRatios= null;
 
   private MarginInfo marginInfo;
 
@@ -125,9 +129,29 @@ public class GridLayout extends Composite<Div> implements HasSize, HasStyle {
       }
     }
 
-    List<String> list = new ArrayList<>();
-    list.addAll(Collections.nCopies(columns, "auto"));
-    String gridColumns = list.stream().collect(Collectors.joining(" "));
+    if (colWidths == null)
+    {
+        // Use auto width for all columns
+        colWidths = new ArrayList<>();
+        colWidths.addAll(Collections.nCopies(columns, "auto"));
+    }
+    else
+    {
+        ArrayList<String> oldColWidth= colWidths;
+        colWidths = new ArrayList<>();
+        for (int i= 0; i < 0; i++)
+        {
+            if (oldColWidth.size() > i)
+            {
+                colWidths.add(oldColWidth.get(i));
+            }
+            else
+            {
+                colWidths.addAll(Collections.nCopies(columns, "auto"));
+            }
+        }
+    }
+    String gridColumns = colWidths.stream().collect(Collectors.joining(" "));
     getElement().getStyle().set("grid-template-columns", gridColumns);
     this.columns = columns;
   }
@@ -235,14 +259,14 @@ public class GridLayout extends Composite<Div> implements HasSize, HasStyle {
   }
 
   /**
-   * Returns the current x-position (column) of the cursor.
+   * @return Returns the current x-position (column) of the cursor.
    */
   public int getCursorX() {
     return cursorX;
   }
 
   /**
-   * Returns the current y-position (row) of the cursor.
+   * @return Returns the current y-position (row) of the cursor.
    */
   public int getCursorY() {
     return cursorY;
@@ -457,7 +481,7 @@ public class GridLayout extends Composite<Div> implements HasSize, HasStyle {
   }
 
   /**
-   * Returns margin info.
+   * @return Returns margin info.
    */
   public MarginInfo getMargin() {
     if (marginInfo == null) {
@@ -474,7 +498,107 @@ public class GridLayout extends Composite<Div> implements HasSize, HasStyle {
   public void setSpacing(boolean spacing) {
     div.getElement().getClassList().set(SPACING_CLASS_NAME, spacing);
   }
+  
+  /**
+   * Sets the expand ratio of given column.
+   * The expand ratio defines how excess space is distributed among columns. 
+   * Excess space means space that is left over from components that are not 
+   * sized relatively. By default, the excess space is distributed evenly.
+   * Note, that width of this GridLayout needs to be defined (fixed or relative, 
+   * as opposed to undefined height) for this method to have any effect.
+   * Note that checking for relative width for the child components is done 
+   * on the server so you cannot set a child component to have undefined 
+   * width on the server and set it to 100% in CSS. 
+   * You must set it to 100% on the server.
+   * 
+   * @deprecated Since the used css grid calculates widths differently
+   * user the new {@link #setColumnWidth(int,String)} instead
+   *
+   * @param columnIndex 1 based column number
+   * @param ratio expand ratio, please use parts of 100%
+   */
+  public void setColumnExpandRatio(int columnIndex,
+                                 float ratio)  {
+    if (columnIndex < 1) {
+      throw new IllegalArgumentException(
+          "The number of columns and rows in the grid must be at least 1");
+    }
 
+    // Checks for overlaps
+    if (getColumns() < columnIndex) {
+      throw new IllegalArgumentException(
+          "The number of columns is less than "+columnIndex);
+    }
+    if (colWidthRatios == null) {
+        colWidthRatios= new ArrayList<>();
+        colWidthRatios.addAll(Collections.nCopies(columns, 0.0f));
+    }
+    colWidthRatios.set(columnIndex-1, ratio);
+    float totalWidth= 0;
+    for (Float wr : colWidthRatios)
+    {
+        if (wr != null)
+        {
+            totalWidth+= wr;
+        }
+    }
+    int myCol= 0;
+    for (Float wr : colWidthRatios)
+    {
+        myCol++;
+        if (wr != null)
+        {
+            float percent= wr / totalWidth * 100;
+            setColumnWidth(myCol, Float.toString(percent)+"%");
+        }
+        else
+        {
+            setColumnWidth(myCol, "auto");
+        }
+    }
+  }
+
+  /**
+   * Set the column width.
+   * If you use % widths, make sure to disable margings and paddings when the
+   * total width gives 100%
+   * 
+   * @param columnIndex 1 based column number
+   * @param colWidth column with numeric value
+   * @param widthUnit width unit
+   */
+  public void setColumnWidth(int columnIndex,
+                             float colWidth,
+                             Unit widthUnit)  {
+      setColumnWidth(columnIndex, Float.toString(colWidth)+widthUnit.getSymbol());
+    }
+  
+  /**
+   * Set the column width.
+   * If you use % widths, make sure to disable margings and paddings when the
+   * total width gives 100%
+   * 
+   * @param columnIndex 1 based column number
+   * @param colWidth Can be a width in em/px etc. or a relative width like 33%
+   */
+  public void setColumnWidth(int columnIndex,
+                             String colWidth)  {
+    if (columnIndex < 1) {
+      throw new IllegalArgumentException(
+          "The number of columns and rows in the grid must be at least 1");
+    }
+
+    // Checks for overlaps
+    if (getColumns() < columnIndex) {
+      throw new IllegalArgumentException(
+          "The number of columns is less than "+columnIndex);
+    }
+
+    colWidths.set(columnIndex-1, colWidth);
+    String gridColumns = colWidths.stream().collect(Collectors.joining(" "));
+    getElement().getStyle().set("grid-template-columns", gridColumns);
+  }
+  
   /**
    * Defines a rectangular area of cells in a GridLayout.
    *
