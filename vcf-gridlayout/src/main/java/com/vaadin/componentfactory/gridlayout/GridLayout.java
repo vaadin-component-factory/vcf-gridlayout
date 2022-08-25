@@ -434,6 +434,24 @@ public class GridLayout extends Composite<Div> implements HasSize, HasStyle {
   }
 
   /**
+   * Gets the Component at given index.
+   *
+   * @param x The column index, starting from 0 for the leftmost column.
+   * @param y The row index, starting from 0 for the topmost row.
+   * @return Component in given cell or null if empty
+   */
+  public Component getComponent(int x, int y) {
+    for (Entry<Component, ChildComponentData> entry : componentsDataMap.entrySet()) {
+      ChildComponentData childData = entry.getValue();
+      if (childData.column1 <= x && x <= childData.column2 && childData.row1 <= y
+          && y <= childData.row2) {
+        return (Component) entry.getKey();
+      }
+    }
+    return null;
+  }
+
+  /**
    * Enables margins for grid layout.
    * 
    * @param enabled true if margins of grid layout should be enabled, false otherwise.
