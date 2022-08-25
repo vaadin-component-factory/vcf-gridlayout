@@ -342,7 +342,8 @@ public class GridLayout extends Composite<Div> implements HasSize, HasStyle {
 
     // Attempt to add to div
     try {
-      div.add(component);
+      div.removeAll();
+      div.add(components.toArray(new Component[0]));
     } catch (IllegalArgumentException e) {
       components.remove(component);
       componentsDataMap.remove(component);
