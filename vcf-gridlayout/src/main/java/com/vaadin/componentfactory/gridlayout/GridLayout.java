@@ -366,7 +366,8 @@ public class GridLayout extends Composite<Div> implements HasSize, HasStyle {
 
     // Attempt to add to div
     try {
-      div.add(component);
+      div.removeAll();
+      div.add(components.toArray(new Component[0]));
     } catch (IllegalArgumentException e) {
       components.remove(component);
       componentsDataMap.remove(component);
@@ -455,6 +456,24 @@ public class GridLayout extends Composite<Div> implements HasSize, HasStyle {
    */
   public int getComponentCount() {
     return components.size();
+  }
+
+  /**
+   * Gets the Component at given index.
+   *
+   * @param x The column index, starting from 0 for the leftmost column.
+   * @param y The row index, starting from 0 for the topmost row.
+   * @return Component in given cell or null if empty
+   */
+  public Component getComponent(int x, int y) {
+    for (Entry<Component, ChildComponentData> entry : componentsDataMap.entrySet()) {
+      ChildComponentData childData = entry.getValue();
+      if (childData.column1 <= x && x <= childData.column2 && childData.row1 <= y
+          && y <= childData.row2) {
+        return (Component) entry.getKey();
+      }
+    }
+    return null;
   }
 
   /**
