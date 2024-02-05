@@ -341,33 +341,34 @@ public class GridLayout extends Composite<Div> implements HasSize, HasStyle {
     // Checks that newItem does not overlap with existing items
     checkExistingOverlaps(area);
 
-    // Inserts the component to right place at the list
-    // Respect top-down, left-right ordering
-    final Iterator<Component> i = components.iterator();
-    component = wrapComponent(component);
-    int index = 0;
-    boolean done = false;
-    while (!done && i.hasNext()) {
-      final ChildComponentData existingArea = componentsDataMap.get(i.next());
-      if ((existingArea.row1 >= row1 && existingArea.column1 > column1)
-          || existingArea.row1 > row1) {
-        components.add(index, component);
-        setComponentArea(component, column1, row1, column2, row2);
-        done = true;
-      }
-      index++;
-    }
-    if (!done) {
-      components.addLast(component);
-      setComponentArea(component, column1, row1, column2, row2);
-    }
-
-    componentsDataMap.put(component, new ChildComponentData(column1, row1, column2, row2));
-
-    // Attempt to add to div
     try {
-      div.removeAll();
-      div.add(components.toArray(new Component[0]));
+      // Inserts the component to right place at the list
+      // Respect top-down, left-right ordering
+      final Iterator<Component> i = components.iterator();
+      component = wrapComponent(component);
+      int index = 0;
+      boolean done = false;
+      while (!done && i.hasNext()) {
+        final ChildComponentData existingArea = componentsDataMap.get(i.next());
+        if ((existingArea.row1 >= row1 && existingArea.column1 > column1)
+            || existingArea.row1 > row1) {
+          components.add(index, component);
+          setComponentArea(component, column1, row1, column2, row2);
+          done = true;
+          // add to div
+          div.getElement().insertChild(index, component.getElement());
+        }
+        index++;
+      }
+      if (!done) {
+        components.addLast(component);
+        setComponentArea(component, column1, row1, column2, row2);
+        // add to div
+        div.getElement().appendChild(component.getElement());
+      }
+  
+      componentsDataMap.put(component, new ChildComponentData(column1, row1, column2, row2));
+      
     } catch (IllegalArgumentException e) {
       components.remove(component);
       componentsDataMap.remove(component);
