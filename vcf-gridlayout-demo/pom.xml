@@ -6,7 +6,7 @@
 
     <groupId>org.vaadin.addons.componentfactory</groupId>
     <artifactId>vcf-gridlayout-demo</artifactId>
-    <version>1.1.1</version>
+    <version>1.1.24-SNAPSHOT</version>
 
     <name>GridLayout Demo</name>
     <packaging>war</packaging>
@@ -18,10 +18,10 @@
     </organization>
 
     <properties>
-        <vaadin.version>14.10.11</vaadin.version>
+        <vaadin.version>24.3.3</vaadin.version>
         <flow.version>2.9.11</flow.version>
-        <maven.compiler.source>1.8</maven.compiler.source>
-        <maven.compiler.target>1.8</maven.compiler.target>
+        <maven.compiler.source>19</maven.compiler.source>
+        <maven.compiler.target>19</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <failOnMissingWebXml>false</failOnMissingWebXml>

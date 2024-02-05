@@ -3,19 +3,19 @@
 
     <groupId>org.vaadin.addons.componentfactory</groupId>
     <artifactId>vcf-gridlayout-root</artifactId>
-    <version>1.1.1</version>
+    <version>1.1.24-SNAPSHOT</version>
     <packaging>pom</packaging>
     <modules>
         <module>vcf-gridlayout</module>
         <module>vcf-gridlayout-demo</module>
     </modules>
-    <name>GridLayout</name>
+    <name>GridLayout master project</name>
     <description>GridLayout for Flow</description>
 
     <properties>
-        <vaadin.version>14.10.11</vaadin.version>
-        <maven.compiler.source>1.8</maven.compiler.source>
-        <maven.compiler.target>1.8</maven.compiler.target>
+        <vaadin.version>24.3.3</vaadin.version>
+        <maven.compiler.source>19</maven.compiler.source>
+        <maven.compiler.target>19</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     </properties>
